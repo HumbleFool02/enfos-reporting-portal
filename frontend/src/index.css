@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Tailwind v4 uses CSS-first config: custom theme values (like this
+   animation) are declared here with @theme instead of in a JS config file. */
+@theme {
+  --animate-fade-slide-in: fade-slide-in 0.35s ease-out;
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
