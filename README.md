@@ -33,8 +33,6 @@ docker compose down
 
 ## Standalone development (no Docker)
 
-Useful for active development — hot reload on both sides.
-
 **Backend** (needs Java 17+; the committed Maven Wrapper handles Maven itself):
 
 ```bash
@@ -52,8 +50,7 @@ npm install
 npm run dev
 ```
 
-Serves on `http://localhost:5173`, proxying `/api/*` to `localhost:8080` (see `vite.config.js`) — no CORS configuration needed for this path. `backend/.../config/CorsConfig.java` additionally allows direct cross-origin calls from `localhost:5173` for cases outside that proxy.
-
+Serves on `http://localhost:5173`, proxying `/api/*` to `localhost:8080` 
 ## API
 
 All endpoints are under `/api/reports`.
@@ -67,7 +64,7 @@ All endpoints are under `/api/reports`.
 | GET | `/api/reports/projects` | Projects report rows |
 | GET | `/api/reports/{id}` | Row data for any other report (`vendors`, `incidents`, `assets`, `audit-log`, `budget-lines`, `contracts`) |
 
-All data is in-memory mock data, seeded on startup — no database.
+All data is in-memory mock data, seeded on startup, no database required.
 
 ## Demonstrating loading / empty / error states
 
@@ -77,7 +74,7 @@ All data is in-memory mock data, seeded on startup — no database.
   ```bash
   docker compose stop backend
   ```
-  Reload the frontend or click **Retry** — you'll see the error state. Then:
+  Reload the frontend or click **Retry** and you'll see the error state. Then:
   ```bash
   docker compose start backend
   ```
