@@ -22,7 +22,7 @@ export default function ReportCard({ report }) {
   return (
     <Link
       to={`/reports/${report.id}`}
-      className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-mint hover:shadow-lg hover:shadow-mint/10"
+      className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-turquoise-blue-dark hover:shadow-lg hover:shadow-turquoise-blue/10"
     >
       <div>
         <span
@@ -30,7 +30,7 @@ export default function ReportCard({ report }) {
         >
           {report.category}
         </span>
-        <h3 className="mt-3 text-lg font-bold text-navy transition-colors group-hover:text-mint-dark">
+        <h3 className="mt-3 text-lg font-bold text-navy transition-colors group-hover:text-turquoise-blue-dark">
           {report.name}
         </h3>
         <p className="mt-1.5 text-sm text-slate-500">{report.description}</p>

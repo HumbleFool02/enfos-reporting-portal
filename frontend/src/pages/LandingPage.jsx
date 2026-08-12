@@ -16,6 +16,22 @@ const SORT_OPTIONS = [
   { value: "rowCount-desc", label: "Most Rows" },
 ];
 
+// Native <select> arrows sit right where a fully-rounded pill's border
+// curves inward, reading as cramped - appearance-none drops the native one
+// in favor of this, positioned with real clearance from the edge.
+function SelectChevron() {
+  return (
+    <svg
+      className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy-muted"
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function sortReports(reports, sortValue) {
   const [key, direction] = sortValue.split("-");
   const sorted = [...reports].sort((a, b) => {
@@ -77,7 +93,7 @@ export default function LandingPage() {
   return (
     <div className="mx-auto max-w-6xl animate-fade-slide-in px-4 py-12 sm:px-6 lg:px-8">
       <header className="mb-10">
-        <span className="text-xs font-bold uppercase tracking-widest text-mint-dark">Reporting Portal</span>
+        <span className="text-xs font-bold uppercase tracking-widest text-royal-blue-dark">Reporting Portal</span>
         <h1 className="mt-2 text-3xl font-extrabold text-navy sm:text-4xl">Explore your organization's data</h1>
         <p className="mt-2 max-w-2xl text-sm text-slate-500 sm:text-base">
           Browse available reports, drill into their data, and track what's changed across the org.
@@ -88,28 +104,34 @@ export default function LandingPage() {
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <SearchFilter value={searchTerm} onChange={handleSearchChange} />
           <div className="flex gap-3">
-            <select
-              value={category}
-              onChange={handleCategoryChange}
-              className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm text-navy focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
-            >
-              {categories.map((option) => (
-                <option key={option} value={option}>
-                  {option === "All" ? "All Categories" : option}
-                </option>
-              ))}
-            </select>
-            <select
-              value={sortValue}
-              onChange={handleSortChange}
-              className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm text-navy focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
-            >
-              {SORT_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={category}
+                onChange={handleCategoryChange}
+                className="appearance-none rounded-full border border-slate-300 bg-white py-2.5 pl-4 pr-9 text-sm text-navy focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+              >
+                {categories.map((option) => (
+                  <option key={option} value={option}>
+                    {option === "All" ? "All Categories" : option}
+                  </option>
+                ))}
+              </select>
+              <SelectChevron />
+            </div>
+            <div className="relative">
+              <select
+                value={sortValue}
+                onChange={handleSortChange}
+                className="appearance-none rounded-full border border-slate-300 bg-white py-2.5 pl-4 pr-9 text-sm text-navy focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+              >
+                {SORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <SelectChevron />
+            </div>
           </div>
         </div>
       )}

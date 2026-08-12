@@ -9,6 +9,15 @@
   --color-mint: #44d287;
   --color-mint-dark: #2fb873;
   --color-mint-light: #e7faf0;
+  --color-mint-muted: #a3d9b1;
+    --color-navy-light: #f0f2f5;
+    --color-navy-muted-light: #f5f6f8;
+    --color-navy-dark: #0f1c3d;
+    --color-royal-blue: #2e5bff;
+    --color-royal-blue-dark: #1a3dbf;
+    --color-turquoise-blue: #00c2ff;
+    --color-turquoise-blue-dark: #0099cc;
+    --color-teal: #00b3a4;
 
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
