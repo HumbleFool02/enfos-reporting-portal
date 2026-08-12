@@ -2,45 +2,132 @@ import { useMemo, useState } from "react";
 import { useReports } from "../hooks/useReports.js";
 import ReportGrid from "../components/ReportGrid.jsx";
 import SearchFilter from "../components/SearchFilter.jsx";
+import Pagination from "../components/Pagination.jsx";
 import LoadingState from "../components/LoadingState.jsx";
 import EmptyState from "../components/EmptyState.jsx";
 import ErrorState from "../components/ErrorState.jsx";
 
+const PAGE_SIZE = 6;
+
+const SORT_OPTIONS = [
+  { value: "name-asc", label: "Name (A–Z)" },
+  { value: "name-desc", label: "Name (Z–A)" },
+  { value: "lastUpdated-desc", label: "Recently Updated" },
+  { value: "rowCount-desc", label: "Most Rows" },
+];
+
+function sortReports(reports, sortValue) {
+  const [key, direction] = sortValue.split("-");
+  const sorted = [...reports].sort((a, b) => {
+    if (key === "name") return a.name.localeCompare(b.name);
+    if (key === "lastUpdated") return new Date(a.lastUpdated) - new Date(b.lastUpdated);
+    if (key === "rowCount") return a.rowCount - b.rowCount;
+    return 0;
+  });
+  return direction === "desc" ? sorted.reverse() : sorted;
+}
+
 export default function LandingPage() {
   const { data: reports, loading, error, refetch } = useReports();
   const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("All");
+  const [sortValue, setSortValue] = useState("name-asc");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredReports = useMemo(() => {
+  const categories = useMemo(() => {
     if (!reports) return [];
+    return ["All", ...new Set(reports.map((report) => report.category))];
+  }, [reports]);
+
+  // useMemo here avoids re-filtering/re-sorting on every render (e.g. while
+  // typing triggers other state updates elsewhere) - only recomputes when
+  // the reports themselves or the filter/sort state actually change.
+  const visibleReports = useMemo(() => {
+    if (!reports) return [];
+    let result = reports;
+    if (category !== "All") {
+      result = result.filter((report) => report.category === category);
+    }
     const term = searchTerm.trim().toLowerCase();
-    if (!term) return reports;
-    return reports.filter((report) => report.name.toLowerCase().includes(term));
-  }, [reports, searchTerm]);
+    if (term) {
+      result = result.filter((report) => report.name.toLowerCase().includes(term));
+    }
+    return sortReports(result, sortValue);
+  }, [reports, category, searchTerm, sortValue]);
+
+  const totalPages = Math.max(1, Math.ceil(visibleReports.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedReports = visibleReports.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+  function handleSearchChange(value) {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  }
+
+  function handleCategoryChange(event) {
+    setCategory(event.target.value);
+    setCurrentPage(1);
+  }
+
+  function handleSortChange(event) {
+    setSortValue(event.target.value);
+    setCurrentPage(1);
+  }
 
   return (
-    <div className="mx-auto max-w-5xl animate-fade-slide-in px-4 py-10 sm:px-6 lg:px-8">
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Reporting Portal</h1>
-        <p className="mt-1 text-sm text-gray-500">Browse available reports and dive into their data.</p>
+    <div className="mx-auto max-w-6xl animate-fade-slide-in px-4 py-12 sm:px-6 lg:px-8">
+      <header className="mb-10">
+        <span className="text-xs font-bold uppercase tracking-widest text-mint-dark">Reporting Portal</span>
+        <h1 className="mt-2 text-3xl font-extrabold text-navy sm:text-4xl">Explore your organization's data</h1>
+        <p className="mt-2 max-w-2xl text-sm text-slate-500 sm:text-base">
+          Browse available reports, drill into their data, and track what's changed across the org.
+        </p>
       </header>
 
-      {!loading && !error && (
-        <div className="mb-6">
-          <SearchFilter value={searchTerm} onChange={setSearchTerm} />
+      {!loading && !error && reports && reports.length > 0 && (
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <SearchFilter value={searchTerm} onChange={handleSearchChange} />
+          <div className="flex gap-3">
+            <select
+              value={category}
+              onChange={handleCategoryChange}
+              className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm text-navy focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+            >
+              {categories.map((option) => (
+                <option key={option} value={option}>
+                  {option === "All" ? "All Categories" : option}
+                </option>
+              ))}
+            </select>
+            <select
+              value={sortValue}
+              onChange={handleSortChange}
+              className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm text-navy focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+            >
+              {SORT_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
       {loading && <LoadingState variant="cards" />}
 
-      {!loading && error && (
-        <ErrorState message={error.message || "Failed to load reports."} onRetry={refetch} />
+      {!loading && error && <ErrorState message={error.message || "Failed to load reports."} onRetry={refetch} />}
+
+      {!loading && !error && visibleReports.length === 0 && (
+        <EmptyState message={searchTerm || category !== "All" ? "No reports match your filters." : "No reports available."} />
       )}
 
-      {!loading && !error && filteredReports.length === 0 && (
-        <EmptyState message={searchTerm ? `No reports match "${searchTerm}".` : "No reports available."} />
+      {!loading && !error && paginatedReports.length > 0 && (
+        <>
+          <ReportGrid reports={paginatedReports} />
+          <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        </>
       )}
-
-      {!loading && !error && filteredReports.length > 0 && <ReportGrid reports={filteredReports} />}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import ReportDetailPage from "./pages/ReportDetailPage.jsx";
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-slate-50">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/reports/:reportId" element={<ReportDetailPage />} />

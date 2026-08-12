@@ -37,4 +37,50 @@ export const reportColumns = {
     { key: "startDate", header: "Start Date", render: (row) => formatDate(row.startDate) },
     { key: "endDate", header: "End Date", render: (row) => (row.endDate ? formatDate(row.endDate) : "Ongoing") },
   ],
+  // Extended reports all share the same ExtendedRecord shape on the backend
+  // (id, name, category, status, updatedDate) - only the on-screen labels
+  // differ here, so "category" reads as "Industry" for Vendors, "Severity"
+  // for Incidents, etc.
+  vendors: [
+    { key: "id", header: "Vendor ID" },
+    { key: "name", header: "Vendor Name" },
+    { key: "category", header: "Industry" },
+    { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
+    { key: "updatedDate", header: "Last Updated", render: (row) => formatDate(row.updatedDate) },
+  ],
+  incidents: [
+    { key: "id", header: "Incident ID" },
+    { key: "name", header: "Description" },
+    { key: "category", header: "Severity" },
+    { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
+    { key: "updatedDate", header: "Reported Date", render: (row) => formatDate(row.updatedDate) },
+  ],
+  assets: [
+    { key: "id", header: "Asset ID" },
+    { key: "name", header: "Asset Name" },
+    { key: "category", header: "Type" },
+    { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
+    { key: "updatedDate", header: "Last Updated", render: (row) => formatDate(row.updatedDate) },
+  ],
+  "audit-log": [
+    { key: "id", header: "Audit ID" },
+    { key: "name", header: "Action" },
+    { key: "category", header: "Type" },
+    { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
+    { key: "updatedDate", header: "Date", render: (row) => formatDate(row.updatedDate) },
+  ],
+  "budget-lines": [
+    { key: "id", header: "Budget ID" },
+    { key: "name", header: "Line Item" },
+    { key: "category", header: "Category" },
+    { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
+    { key: "updatedDate", header: "Last Updated", render: (row) => formatDate(row.updatedDate) },
+  ],
+  contracts: [
+    { key: "id", header: "Contract ID" },
+    { key: "name", header: "Contract Name" },
+    { key: "category", header: "Type" },
+    { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
+    { key: "updatedDate", header: "Effective Date", render: (row) => formatDate(row.updatedDate) },
+  ],
 };

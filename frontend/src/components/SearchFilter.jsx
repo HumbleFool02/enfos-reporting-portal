@@ -5,7 +5,7 @@ export default function SearchFilter({ value, onChange, placeholder = "Search re
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
-      className="w-full max-w-md rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+      className="w-full rounded-full border border-slate-300 px-4 py-2.5 text-sm text-navy placeholder:text-slate-400 focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30 sm:max-w-xs"
     />
   );
 }

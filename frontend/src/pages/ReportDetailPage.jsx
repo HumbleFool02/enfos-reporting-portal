@@ -22,17 +22,17 @@ export default function ReportDetailPage() {
   const columns = reportColumns[reportId] ?? [];
 
   return (
-    <div className="mx-auto max-w-6xl animate-fade-slide-in px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl animate-fade-slide-in px-4 py-12 sm:px-6 lg:px-8">
       <Link
         to="/"
-        className="mb-6 inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
+        className="mb-8 inline-flex items-center gap-1 text-sm font-semibold text-navy-muted transition hover:text-mint-dark"
       >
         ← Back to all reports
       </Link>
 
       {loading && (
         <>
-          <div className="mb-6 h-8 w-64 animate-pulse rounded bg-gray-200" />
+          <div className="mb-8 h-9 w-72 animate-pulse rounded-lg bg-slate-200" />
           <LoadingState variant="table" />
         </>
       )}
@@ -43,10 +43,11 @@ export default function ReportDetailPage() {
 
       {!loading && !error && data && (
         <>
-          <header className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">{data.meta.name}</h1>
-            <p className="mt-1 text-sm text-gray-500">{data.meta.description}</p>
-            <p className="mt-1 text-xs text-gray-400">Last updated {formatDate(data.meta.lastUpdated)}</p>
+          <header className="mb-8">
+            <span className="text-xs font-bold uppercase tracking-widest text-mint-dark">{data.meta.category}</span>
+            <h1 className="mt-2 text-3xl font-extrabold text-navy sm:text-4xl">{data.meta.name}</h1>
+            <p className="mt-2 max-w-2xl text-sm text-slate-500 sm:text-base">{data.meta.description}</p>
+            <p className="mt-2 text-xs text-slate-400">Last updated {formatDate(data.meta.lastUpdated)}</p>
           </header>
 
           {data.rows.length === 0 ? (

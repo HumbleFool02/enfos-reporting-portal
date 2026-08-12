@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import Pagination from "./Pagination.jsx";
 
 const PAGE_SIZE = 8;
 
@@ -60,30 +61,32 @@ export default function DataTable({ columns, rows }) {
         value={searchTerm}
         onChange={handleSearchChange}
         placeholder="Search this table..."
-        className="mb-4 w-full max-w-sm rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        className="mb-4 w-full max-w-sm rounded-full border border-slate-300 px-4 py-2 text-sm text-navy placeholder:text-slate-400 focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
       />
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+        <table className="min-w-full divide-y divide-slate-200 text-sm">
+          <thead className="bg-navy/[0.04]">
             <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
                   onClick={() => handleSort(column.key)}
-                  className="cursor-pointer select-none whitespace-nowrap px-4 py-3 text-left font-medium text-gray-600 hover:text-gray-900"
+                  className="cursor-pointer select-none whitespace-nowrap px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-navy-muted hover:text-navy"
                 >
                   {column.header}
-                  {sortKey === column.key && (sortDirection === "asc" ? " ↑" : " ↓")}
+                  {sortKey === column.key && (
+                    <span className="ml-1 text-mint-dark">{sortDirection === "asc" ? "↑" : "↓"}</span>
+                  )}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 bg-white">
+          <tbody className="divide-y divide-slate-100">
             {paginatedRows.map((row, rowIndex) => (
-              <tr key={row.id ?? rowIndex} className="hover:bg-gray-50">
+              <tr key={row.id ?? rowIndex} className="odd:bg-white even:bg-slate-50/60 hover:bg-mint-light/60">
                 {columns.map((column) => (
-                  <td key={column.key} className="whitespace-nowrap px-4 py-3 text-gray-700">
+                  <td key={column.key} className="whitespace-nowrap px-4 py-3 text-slate-700">
                     {column.render ? column.render(row) : row[column.key] ?? "—"}
                   </td>
                 ))}
@@ -93,35 +96,11 @@ export default function DataTable({ columns, rows }) {
         </table>
 
         {paginatedRows.length === 0 && (
-          <div className="py-10 text-center text-sm text-gray-500">No rows match your search.</div>
+          <div className="py-10 text-center text-sm text-slate-500">No rows match your search.</div>
         )}
       </div>
 
-      {totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-          <span>
-            Page {safePage} of {totalPages}
-          </span>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-              disabled={safePage === 1}
-              className="rounded-md border border-gray-300 px-3 py-1 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-              disabled={safePage === totalPages}
-              className="rounded-md border border-gray-300 px-3 py-1 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
+      <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
     </div>
   );
 }

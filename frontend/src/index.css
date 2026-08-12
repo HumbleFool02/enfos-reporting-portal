@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
-/* Tailwind v4 uses CSS-first config: custom theme values (like this
-   animation) are declared here with @theme instead of in a JS config file. */
+/* Tailwind v4 uses CSS-first config: theme tokens (colors, fonts, custom
+   animations) are declared here with @theme instead of in a JS config file.
+   --color-* tokens auto-generate matching utilities (bg-navy, text-mint...). */
 @theme {
+  --color-navy: #1e315d;
+  --color-navy-muted: #48546d;
+  --color-mint: #44d287;
+  --color-mint-dark: #2fb873;
+  --color-mint-light: #e7faf0;
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
   --animate-fade-slide-in: fade-slide-in 0.35s ease-out;
 }
 
@@ -15,4 +24,8 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+body {
+  font-family: var(--font-sans);
 }
