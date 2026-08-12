@@ -16,7 +16,6 @@ const SORT_OPTIONS = [
   { value: "rowCount-desc", label: "Most Rows" },
 ];
 
-// Native <select> arrows crowd a fully-rounded pill's border; this replaces it with proper clearance.
 function SelectChevron() {
   return (
     <svg

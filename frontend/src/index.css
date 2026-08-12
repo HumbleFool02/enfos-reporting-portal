@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* --color-* tokens here auto-generate matching Tailwind utilities (bg-navy, text-mint...). */
+
 @theme {
   --color-navy: #1e315d;
   --color-navy-muted: #48546d;
