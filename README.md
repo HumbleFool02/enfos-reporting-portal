@@ -85,8 +85,12 @@ All data is in-memory mock data, seeded on startup — no database.
 ## Assumptions & tradeoffs
 
 **In-memory mock data, no database.** The brief allows this explicitly. Data resets on every backend restart; nothing is persisted.
+
 **Client-side search/sort/pagination.** All of it happens in the browser against data already fetched in full. Fine at this data scale (under 20 rows per report); wouldn't scale to a report with tens of thousands of rows without moving to server-side paging/filtering.
  **No authentication.** Not required by the brief; the app is fully open. Every visitor sees the same data.
+ 
 **9 reports, not 3.** The brief requires exactly Users, Departments, and Projects, which are implemented exactly to spec. Six more reports (Vendors, Incidents, Assets, Audit Log, Budget Lines, Contracts) were added on top so the landing page's pagination is actually demonstrable because with only 3 reports there'd be nothing to paginate. They share one generic backend record shape (`id`, `name`, `category`, `status`, `updatedDate`) rather than six bespoke models, since they exist for UI demonstration rather than being part of the required data model.
+
 **Two endpoints beyond the brief's required four**: `GET /api/reports/meta/{id}` (single-report metadata, used by the report detail page header) and the generic `GET /api/reports/{id}` (row data for the six extra reports). Both were added deliberately, not required by the spec.
+
 **Frontend calls the backend via a relative `/api` path everywhere** (dev, Docker, or tunneled through something like ngrok), proxied server-side; by Vite's dev server locally, by nginx in the Docker image. The browser never makes a cross-origin request to the backend in either case, which is also why CORS isn't relevant to the Docker path at all.
