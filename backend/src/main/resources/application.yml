@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: reporting-portal-backend
+
+server:
+  port: 8080
