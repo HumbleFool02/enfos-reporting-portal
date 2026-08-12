@@ -1,6 +1,7 @@
 # Reporting Portal
 
-A full-stack internal reporting portal — a React landing page where users browse available reports and open each one into a searchable, sortable, paginated table, backed by a Spring Boot REST API.
+A full-stack internal reporting portal
+A React landing page where users browse available reports and open each one into a searchable, sortable, paginated table, backed by a Spring Boot REST API.
 ## Screenshots
 
 | | |
@@ -19,7 +20,7 @@ A full-stack internal reporting portal — a React landing page where users brow
 Requires [Docker](https://www.docker.com/) with the Compose plugin (Docker Desktop includes both).
 
 ```bash
-docker compose up --build
+docker compose up build
 ```
 
 Open **http://localhost:3000**. The backend (port 8080) starts first and must pass a healthcheck before the frontend container starts — `docker compose ps` will show `backend` as `(healthy)` once that happens.
