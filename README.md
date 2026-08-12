@@ -1,7 +1,6 @@
 # Reporting Portal
 
-A full-stack internal reporting portal — a React landing page where users browse available reports and open each one into a searchable, sortable, paginated table, backed by a Spring Boot REST API. Built for the Enfos engineering take-home assessment.
-
+A full-stack internal reporting portal — a React landing page where users browse available reports and open each one into a searchable, sortable, paginated table, backed by a Spring Boot REST API.
 ## Screenshots
 
 | | |
