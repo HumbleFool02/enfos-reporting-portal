@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
-/* Tailwind v4 uses CSS-first config: theme tokens (colors, fonts, custom
-   animations) are declared here with @theme instead of in a JS config file.
-   --color-* tokens auto-generate matching utilities (bg-navy, text-mint...). */
+/* --color-* tokens here auto-generate matching Tailwind utilities (bg-navy, text-mint...). */
 @theme {
   --color-navy: #1e315d;
   --color-navy-muted: #48546d;

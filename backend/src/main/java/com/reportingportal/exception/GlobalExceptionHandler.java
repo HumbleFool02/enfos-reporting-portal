@@ -8,14 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 
-// @ControllerAdvice makes this class a global interceptor for exceptions
-// thrown by any @RestController - error formatting lives here once instead
-// of being repeated as try/catch in every controller method.
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // @ExceptionHandler binds this method to a specific exception type; it
-    // runs whenever a ReportNotFoundException escapes a controller method.
     @ExceptionHandler(ReportNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleReportNotFound(ReportNotFoundException ex, HttpServletRequest request) {
         ErrorResponse body = new ErrorResponse(

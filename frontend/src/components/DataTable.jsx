@@ -11,17 +11,13 @@ function compareValues(a, b) {
   return String(a).localeCompare(String(b));
 }
 
-// Config-driven table: caller supplies `columns` ({ key, header, render? })
-// and `rows`; search, sort, and pagination are all handled internally as
-// presentation state, kept separate from whatever fetched the data.
+// Config-driven: search/sort/pagination are internal presentation state, kept separate from whatever fetched the data.
 export default function DataTable({ columns, rows }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortKey, setSortKey] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // useMemo re-runs the filter/sort pipeline only when its inputs actually
-  // change, instead of on every render (e.g. from unrelated parent updates).
   const filteredRows = useMemo(() => {
     if (!searchTerm.trim()) return rows;
     const term = searchTerm.toLowerCase();

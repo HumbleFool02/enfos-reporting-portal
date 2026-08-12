@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-// @Component registers this as a Spring-managed bean so services can have it
-// injected instead of each one constructing/holding its own copy of the data.
 @Component
 public class MockDataStore {
 
@@ -55,8 +53,7 @@ public class MockDataStore {
             new Project("PRJ-2010", "Data Warehouse Upgrade", "Engineering", "David Okafor", "In Progress", LocalDate.of(2026, 2, 10), null)
     );
 
-    // "Extended" reports exist purely so the landing page has enough cards to
-    // paginate - keyed by the same id used in the URL/report metadata.
+    // Keyed by the same id used in the URL and report metadata.
     private final Map<String, List<ExtendedRecord>> extendedReports = Map.of(
             "vendors", List.of(
                     new ExtendedRecord("VEN-100", "Waste Management Solutions", "Environmental Services", "Active", LocalDate.of(2026, 6, 15)),

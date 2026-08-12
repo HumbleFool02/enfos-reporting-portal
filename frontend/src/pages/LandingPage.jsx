@@ -16,9 +16,7 @@ const SORT_OPTIONS = [
   { value: "rowCount-desc", label: "Most Rows" },
 ];
 
-// Native <select> arrows sit right where a fully-rounded pill's border
-// curves inward, reading as cramped - appearance-none drops the native one
-// in favor of this, positioned with real clearance from the edge.
+// Native <select> arrows crowd a fully-rounded pill's border; this replaces it with proper clearance.
 function SelectChevron() {
   return (
     <svg
@@ -55,9 +53,6 @@ export default function LandingPage() {
     return ["All", ...new Set(reports.map((report) => report.category))];
   }, [reports]);
 
-  // useMemo here avoids re-filtering/re-sorting on every render (e.g. while
-  // typing triggers other state updates elsewhere) - only recomputes when
-  // the reports themselves or the filter/sort state actually change.
   const visibleReports = useMemo(() => {
     if (!reports) return [];
     let result = reports;

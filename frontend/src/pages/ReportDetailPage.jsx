@@ -16,7 +16,6 @@ function formatDate(isoDate) {
 }
 
 export default function ReportDetailPage() {
-  // useParams reads the dynamic :reportId segment from the current route.
   const { reportId } = useParams();
   const { data, loading, error, refetch } = useReportData(reportId);
   const columns = reportColumns[reportId] ?? [];
@@ -53,9 +52,7 @@ export default function ReportDetailPage() {
           {data.rows.length === 0 ? (
             <EmptyState message="This report has no data yet." />
           ) : (
-            // key={reportId} forces a clean remount when switching reports,
-            // so DataTable's internal search/sort/page state doesn't carry
-            // over from the previous report's table.
+            // key={reportId}: forces a clean remount so table state doesn't carry over between reports.
             <DataTable key={reportId} columns={columns} rows={data.rows} />
           )}
         </>

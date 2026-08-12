@@ -1,6 +1,4 @@
-// Reused for both the landing page's card grid and the detail page's table
-// while data is in flight, so a single "loading" concept feels the same
-// everywhere in the app.
+// Reused for both the card grid and the table so "loading" looks the same everywhere.
 export default function LoadingState({ variant = "cards", rows = 6 }) {
   if (variant === "table") {
     return (

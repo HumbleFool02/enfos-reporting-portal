@@ -1,5 +1,4 @@
-// Shared by DataTable (table rows) and LandingPage (report cards) so both
-// get the same Previous/Next control instead of two hand-rolled copies.
+// Shared by DataTable and LandingPage instead of two hand-rolled copies.
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
 

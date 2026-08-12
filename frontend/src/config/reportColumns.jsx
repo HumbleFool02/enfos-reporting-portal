@@ -10,8 +10,7 @@ function formatDate(isoDate) {
   });
 }
 
-// Per-report column definitions consumed by DataTable. `key` is always the
-// raw field to sort/search on; `render` (optional) only affects display.
+
 export const reportColumns = {
   users: [
     { key: "id", header: "User ID" },
@@ -37,10 +36,7 @@ export const reportColumns = {
     { key: "startDate", header: "Start Date", render: (row) => formatDate(row.startDate) },
     { key: "endDate", header: "End Date", render: (row) => (row.endDate ? formatDate(row.endDate) : "Ongoing") },
   ],
-  // Extended reports all share the same ExtendedRecord shape on the backend
-  // (id, name, category, status, updatedDate) - only the on-screen labels
-  // differ here, so "category" reads as "Industry" for Vendors, "Severity"
-  // for Incidents, etc.
+  // Extended reports share one backend shape (id, name, category, status, updatedDate); only labels differ here.
   vendors: [
     { key: "id", header: "Vendor ID" },
     { key: "name", header: "Vendor Name" },
