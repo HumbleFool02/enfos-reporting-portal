@@ -1,10 +1,12 @@
 package com.reportingportal.controller;
 
 import com.reportingportal.model.Department;
+import com.reportingportal.model.ExtendedRecord;
 import com.reportingportal.model.Project;
 import com.reportingportal.model.ReportMetadata;
 import com.reportingportal.model.User;
 import com.reportingportal.service.DepartmentReportService;
+import com.reportingportal.service.ExtendedReportService;
 import com.reportingportal.service.ProjectReportService;
 import com.reportingportal.service.ReportMetadataService;
 import com.reportingportal.service.UserReportService;
@@ -28,17 +30,20 @@ public class ReportController {
     private final UserReportService userReportService;
     private final DepartmentReportService departmentReportService;
     private final ProjectReportService projectReportService;
+    private final ExtendedReportService extendedReportService;
 
     public ReportController(
             ReportMetadataService reportMetadataService,
             UserReportService userReportService,
             DepartmentReportService departmentReportService,
-            ProjectReportService projectReportService
+            ProjectReportService projectReportService,
+            ExtendedReportService extendedReportService
     ) {
         this.reportMetadataService = reportMetadataService;
         this.userReportService = userReportService;
         this.departmentReportService = departmentReportService;
         this.projectReportService = projectReportService;
+        this.extendedReportService = extendedReportService;
     }
 
     // @GetMapping is shorthand for @RequestMapping(method = GET) on a
@@ -66,13 +71,20 @@ public class ReportController {
         return projectReportService.getProjects();
     }
 
-    // Deliberately not /api/reports/{id}: that would collide with the
-    // literal /users, /departments, /projects mappings above (Spring always
-    // prefers the more specific literal match), so a lookup for one of the
-    // three real report ids would never reach this handler at all. A
-    // distinct sub-path avoids the collision entirely.
+    // Metadata lookup lives at /meta/{id}, not /api/reports/{id}: that would
+    // collide with the literal /users, /departments, /projects mappings
+    // above (Spring always prefers the more specific literal match), so a
+    // lookup for one of those three ids would never reach this handler.
     @GetMapping("/meta/{id}")
     public ReportMetadata getReportById(@PathVariable String id) {
         return reportMetadataService.getReportById(id);
+    }
+
+    // This IS /api/reports/{id} - safe here because it only ever catches ids
+    // Spring couldn't match to a literal path above (the extended reports:
+    // vendors, incidents, etc.), never "users"/"departments"/"projects".
+    @GetMapping("/{id}")
+    public List<ExtendedRecord> getExtendedReportRows(@PathVariable String id) {
+        return extendedReportService.getRows(id);
     }
 }

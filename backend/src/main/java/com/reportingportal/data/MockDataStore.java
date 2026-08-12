@@ -1,12 +1,14 @@
 package com.reportingportal.data;
 
 import com.reportingportal.model.Department;
+import com.reportingportal.model.ExtendedRecord;
 import com.reportingportal.model.Project;
 import com.reportingportal.model.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 // @Component registers this as a Spring-managed bean so services can have it
 // injected instead of each one constructing/holding its own copy of the data.
@@ -53,6 +55,63 @@ public class MockDataStore {
             new Project("PRJ-2010", "Data Warehouse Upgrade", "Engineering", "David Okafor", "In Progress", LocalDate.of(2026, 2, 10), null)
     );
 
+    // "Extended" reports exist purely so the landing page has enough cards to
+    // paginate - keyed by the same id used in the URL/report metadata.
+    private final Map<String, List<ExtendedRecord>> extendedReports = Map.of(
+            "vendors", List.of(
+                    new ExtendedRecord("VEN-100", "Waste Management Solutions", "Environmental Services", "Active", LocalDate.of(2026, 6, 15)),
+                    new ExtendedRecord("VEN-101", "GeoTech Drilling Co.", "Field Services", "Active", LocalDate.of(2026, 5, 20)),
+                    new ExtendedRecord("VEN-102", "Clarity Labs", "Laboratory Testing", "Active", LocalDate.of(2026, 7, 1)),
+                    new ExtendedRecord("VEN-103", "Summit Logistics", "Transportation", "Inactive", LocalDate.of(2025, 11, 10)),
+                    new ExtendedRecord("VEN-104", "Pioneer Remediation", "Environmental Services", "Active", LocalDate.of(2026, 4, 18)),
+                    new ExtendedRecord("VEN-105", "BlueRiver Consulting", "Advisory", "Active", LocalDate.of(2026, 3, 22)),
+                    new ExtendedRecord("VEN-106", "Ironclad Safety Supply", "Equipment", "Inactive", LocalDate.of(2025, 9, 5)),
+                    new ExtendedRecord("VEN-107", "Terra Analytics", "Data Services", "Active", LocalDate.of(2026, 7, 10))
+            ),
+            "incidents", List.of(
+                    new ExtendedRecord("INC-200", "Groundwater sample anomaly at Site 12", "High", "Resolved", LocalDate.of(2026, 6, 1)),
+                    new ExtendedRecord("INC-201", "Spill containment breach", "Critical", "Resolved", LocalDate.of(2026, 5, 14)),
+                    new ExtendedRecord("INC-202", "Air monitor calibration drift", "Medium", "Open", LocalDate.of(2026, 7, 20)),
+                    new ExtendedRecord("INC-203", "Unauthorized site access", "Low", "Resolved", LocalDate.of(2026, 4, 2)),
+                    new ExtendedRecord("INC-204", "Vapor intrusion threshold exceeded", "High", "Open", LocalDate.of(2026, 7, 28)),
+                    new ExtendedRecord("INC-205", "Equipment malfunction - AST sensor", "Medium", "Resolved", LocalDate.of(2026, 3, 11)),
+                    new ExtendedRecord("INC-206", "Soil boring permit lapse", "Low", "Open", LocalDate.of(2026, 8, 5))
+            ),
+            "assets", List.of(
+                    new ExtendedRecord("AST-300", "Monitoring Well MW-14", "Well", "Active", LocalDate.of(2026, 6, 10)),
+                    new ExtendedRecord("AST-301", "Underground Storage Tank #3", "UST", "Active", LocalDate.of(2026, 5, 28)),
+                    new ExtendedRecord("AST-302", "Vapor Extraction System", "Remediation Equipment", "Active", LocalDate.of(2026, 7, 2)),
+                    new ExtendedRecord("AST-303", "Site Fence - North Perimeter", "Infrastructure", "Active", LocalDate.of(2026, 2, 14)),
+                    new ExtendedRecord("AST-304", "Legacy Pump Station", "Equipment", "Inactive", LocalDate.of(2025, 10, 19)),
+                    new ExtendedRecord("AST-305", "Air Sparging Unit B", "Remediation Equipment", "Active", LocalDate.of(2026, 6, 30)),
+                    new ExtendedRecord("AST-306", "Retired Storage Tank #1", "UST", "Inactive", LocalDate.of(2025, 8, 1))
+            ),
+            "audit-log", List.of(
+                    new ExtendedRecord("AUD-400", "Quarterly compliance review", "Review", "Completed", LocalDate.of(2026, 7, 1)),
+                    new ExtendedRecord("AUD-401", "Site data reconciliation", "Data Audit", "Completed", LocalDate.of(2026, 6, 15)),
+                    new ExtendedRecord("AUD-402", "Permit renewal verification", "Permit Check", "Pending", LocalDate.of(2026, 8, 1)),
+                    new ExtendedRecord("AUD-403", "Financial obligation reassessment", "Financial Review", "Completed", LocalDate.of(2026, 5, 20)),
+                    new ExtendedRecord("AUD-404", "Vendor certification check", "Vendor Audit", "Pending", LocalDate.of(2026, 8, 8)),
+                    new ExtendedRecord("AUD-405", "Annual ARO valuation", "Valuation", "Completed", LocalDate.of(2026, 4, 30))
+            ),
+            "budget-lines", List.of(
+                    new ExtendedRecord("BUD-500", "Remediation Reserve FY26", "Capital", "Approved", LocalDate.of(2026, 7, 15)),
+                    new ExtendedRecord("BUD-501", "Site Monitoring Contract", "Operating", "Approved", LocalDate.of(2026, 6, 1)),
+                    new ExtendedRecord("BUD-502", "Emergency Response Fund", "Contingency", "Pending", LocalDate.of(2026, 8, 1)),
+                    new ExtendedRecord("BUD-503", "Vendor Services Renewal", "Operating", "Approved", LocalDate.of(2026, 5, 10)),
+                    new ExtendedRecord("BUD-504", "Closure Cost Estimate Update", "Capital", "Pending", LocalDate.of(2026, 7, 22)),
+                    new ExtendedRecord("BUD-505", "Regulatory Filing Fees", "Administrative", "Approved", LocalDate.of(2026, 3, 18))
+            ),
+            "contracts", List.of(
+                    new ExtendedRecord("CON-600", "Remediation Services Agreement", "Master Service Agreement", "Active", LocalDate.of(2026, 1, 15)),
+                    new ExtendedRecord("CON-601", "Lab Testing Contract", "Testing Services", "Active", LocalDate.of(2026, 4, 1)),
+                    new ExtendedRecord("CON-602", "Legacy Drilling Contract", "Field Services", "Expired", LocalDate.of(2025, 6, 30)),
+                    new ExtendedRecord("CON-603", "Environmental Consulting Retainer", "Advisory", "Active", LocalDate.of(2026, 2, 10)),
+                    new ExtendedRecord("CON-604", "Waste Disposal Agreement", "Disposal Services", "Active", LocalDate.of(2026, 5, 5)),
+                    new ExtendedRecord("CON-605", "Prior Insurance Policy", "Insurance", "Expired", LocalDate.of(2025, 12, 1))
+            )
+    );
+
     public List<User> getUsers() {
         return users;
     }
@@ -63,5 +122,9 @@ public class MockDataStore {
 
     public List<Project> getProjects() {
         return projects;
+    }
+
+    public Map<String, List<ExtendedRecord>> getExtendedReports() {
+        return extendedReports;
     }
 }
